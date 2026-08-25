@@ -1,0 +1,441 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Violet Zhang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#EFEBF2;
+    --card:#FBFAFC;
+    --ink:#241730;
+    --ink-2:#6E5F78;
+    --rule:#DCD4E2;
+    --spark:#E0432D;
+    --calm:#2A9583;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC",system-ui,sans-serif;font-weight:300;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2)}
+  .shell{max-width:1120px;margin:0 auto;padding:0 26px}
+
+  .top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0 0;flex-wrap:wrap}
+  .langs{display:flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+  .langs button{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;background:none;border:0;
+    border-right:1px solid var(--rule);padding:6px 14px;cursor:pointer;color:var(--ink-2);transition:background .16s,color .16s}
+  .langs button:last-child{border-right:0}
+  .langs button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+
+  header{padding:40px 0 30px;border-bottom:1px solid var(--rule)}
+  h1{font-family:"Noto Serif SC",serif;font-weight:900;font-size:clamp(28px,4.6vw,48px);line-height:1.18;letter-spacing:-.01em;max-width:20ch}
+  .lede{margin-top:22px;max-width:58ch;font-size:15.5px;color:var(--ink-2);border-left:2px solid var(--spark);padding-left:16px}
+  .meta{display:flex;gap:30px;flex-wrap:wrap;margin-top:26px}
+  .meta div span{display:block;font-family:"Noto Sans SC";font-size:14px;color:var(--ink);letter-spacing:0;text-transform:none;margin-top:3px}
+
+  .wrap{display:grid;grid-template-columns:1fr 286px;gap:44px;align-items:start;padding:32px 0 80px}
+  @media(max-width:920px){.wrap{grid-template-columns:1fr;gap:30px}}
+
+  section{margin-bottom:30px}
+  .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:14px;flex-wrap:wrap}
+
+  .row{display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:9px 0;border-bottom:1px dotted var(--rule)}
+  .row:last-child{border-bottom:0}
+  @media(max-width:560px){.row{grid-template-columns:1fr}}
+  .row .org{font-family:"Noto Serif SC",serif;font-size:16px;font-weight:600;line-height:1.45}
+  .row .org em{font-style:normal;font-family:"Noto Sans SC";font-size:13.5px;font-weight:300;color:var(--spark);margin-left:9px}
+  .row .desc{font-size:13.5px;color:var(--ink-2);margin-top:2px;grid-column:1/2}
+  .row .per{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;color:var(--ink-2);white-space:nowrap;padding-top:5px;text-align:right}
+
+  .sheet{background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column}
+  .sheet-head{padding:14px 22px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  #log{padding:24px 22px 6px;overflow-y:auto;max-height:60vh;min-height:340px}
+  @media(max-width:920px){#log{max-height:none;min-height:280px}}
+  .turn{margin-bottom:24px}
+  .speaker{display:flex;gap:9px;align-items:baseline;margin-bottom:5px}
+  .speaker b{font-family:"Noto Serif SC",serif;font-size:14px;font-weight:600}
+  .turn.her .speaker b{color:var(--spark)}
+  .turn p{font-size:15px;white-space:pre-wrap}
+  .turn.you p{color:var(--ink-2)}
+  .dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--ink-2);margin-right:4px;animation:b 1.2s infinite}
+  .dots span:nth-child(2){animation-delay:.18s}.dots span:nth-child(3){animation-delay:.36s}
+  @keyframes b{0%,60%,100%{opacity:.22}30%{opacity:1}}
+  @media(prefers-reduced-motion:reduce){.dots span{animation:none;opacity:.5}}
+  .bar{border-top:1px solid var(--rule);padding:13px 18px;display:flex;gap:12px;align-items:flex-end}
+  textarea{flex:1;resize:none;border:0;background:none;outline:none;font-family:"Noto Sans SC";font-size:15px;font-weight:300;color:var(--ink);line-height:1.6;max-height:118px}
+  textarea::placeholder{color:#A79CAE}
+  .send{border:0;background:var(--ink);color:var(--card);font-family:"Noto Sans SC";font-size:13px;padding:7px 17px;cursor:pointer;border-radius:2px;transition:opacity .16s;flex-shrink:0}
+  .send:hover{opacity:.82}
+  .send:disabled{opacity:.35;cursor:default}
+
+  aside{position:sticky;top:24px;display:flex;flex-direction:column;gap:20px}
+  @media(max-width:920px){aside{position:static}}
+  .box{background:var(--card);border:1px solid var(--rule);padding:16px 17px}
+  .box h4{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:11px}
+  .box dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px}
+  .box dt{color:var(--ink-2);white-space:nowrap}
+  .box dd a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .box dd a:hover{color:var(--spark);border-color:var(--spark)}
+  .q{display:block;width:100%;text-align:left;cursor:pointer;background:none;border:0;border-left:2px solid var(--rule);
+     padding:5px 0 5px 12px;margin-bottom:3px;font-family:"Noto Sans SC";font-size:13.5px;font-weight:300;color:var(--ink);
+     line-height:1.55;transition:border-color .16s,padding .16s,color .16s}
+  .q:hover,.q:focus-visible{border-left-color:var(--spark);padding-left:16px;color:var(--spark);outline:none}
+  .note{font-size:12.5px;color:var(--ink-2);line-height:1.7}
+  .ov{position:fixed;inset:0;background:rgba(36,23,48,.42);backdrop-filter:blur(3px);display:flex;
+      align-items:center;justify-content:center;padding:24px;z-index:50;animation:fade .22s ease-out}
+  .ov[hidden]{display:none}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .modal{background:var(--card);border:1px solid var(--rule);max-width:430px;width:100%;padding:26px 26px 22px;
+         position:relative;animation:rise .26s cubic-bezier(.2,.7,.3,1)}
+  @keyframes rise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+  @media(prefers-reduced-motion:reduce){.ov,.modal{animation:none}}
+  .modal h3{font-family:"Noto Serif SC",serif;font-size:21px;font-weight:600;line-height:1.45;color:var(--spark);padding-right:22px}
+  .modal .sub{font-size:13.5px;color:var(--ink-2);margin:10px 0 20px}
+  .modal .x{position:absolute;top:14px;right:16px;background:none;border:0;font-size:20px;line-height:1;
+            color:var(--ink-2);cursor:pointer;padding:2px 5px}
+  .modal .x:hover{color:var(--spark)}
+  .f{display:flex;flex-direction:column;gap:9px}
+  .f input,.f textarea{border:0;border-bottom:1px solid var(--rule);background:none;outline:none;padding:7px 1px;
+    font-family:"Noto Sans SC";font-size:14px;font-weight:300;color:var(--ink);resize:none;transition:border-color .16s}
+  .f input:focus,.f textarea:focus{border-bottom-color:var(--spark)}
+  .f input::placeholder,.f textarea::placeholder{color:#A79CAE}
+  .f .msg{font-size:12.5px;min-height:1.2em;margin-top:2px}
+  .f .msg.bad{color:var(--spark)}
+  .f .msg.ok{color:var(--calm)}
+  .f .acts{display:flex;gap:10px;align-items:center;margin-top:6px}
+  .f .later{background:none;border:0;color:var(--ink-2);font-family:"Noto Sans SC";font-size:13px;cursor:pointer;padding:6px 2px}
+  .f .later:hover{color:var(--ink)}
+  .contact-btn{width:100%;border:1px solid var(--ink);background:none;color:var(--ink);font-family:"Noto Sans SC";
+    font-size:13.5px;padding:8px 0;cursor:pointer;border-radius:2px;transition:background .16s,color .16s}
+  .contact-btn:hover{background:var(--ink);color:var(--card)}
+  footer{border-top:1px solid var(--rule);padding:22px 0 56px;font-size:12.5px;color:var(--ink-2);max-width:66ch}
+</style>
+
+<div class="shell">
+  <div class="top">
+    <span class="mono" id="t-eyebrow"></span>
+    <div class="langs" role="group">
+      <button data-l="zh" aria-pressed="true">中文</button>
+      <button data-l="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <header>
+    <h1 id="t-title"></h1>
+    <p class="lede" id="t-lede"></p>
+    <div class="meta mono" id="t-meta"></div>
+  </header>
+
+  <div class="wrap">
+    <main>
+      <section>
+        <div class="sec-h"><span class="mono" id="t-eduLabel"></span></div>
+        <div id="t-edu"></div>
+      </section>
+
+      <section>
+        <div class="sec-h">
+          <span class="mono" id="t-expLabel"></span>
+          <span class="mono" id="t-expHint" style="text-transform:none;letter-spacing:.02em;font-size:11.5px"></span>
+        </div>
+        <div id="t-exp"></div>
+      </section>
+
+      <section>
+        <div class="sec-h"><span class="mono" id="t-campusLabel"></span></div>
+        <div id="t-campus"></div>
+      </section>
+
+      <section style="margin-bottom:0">
+        <div class="sec-h"><span class="mono" id="t-talkLabel"></span></div>
+        <div class="sheet">
+          <div class="sheet-head">
+            <span class="mono" id="t-live"></span>
+            <span class="mono" id="t-hint"></span>
+          </div>
+          <div id="log"></div>
+          <div class="bar">
+            <textarea id="input" rows="1"></textarea>
+            <button class="send" id="send"></button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="box"><h4 id="t-quickLabel"></h4><dl id="t-quick"></dl></div>
+      <div class="box"><h4 id="t-askLabel"></h4><div id="t-qs"></div></div>
+      <div class="box"><button class="contact-btn" id="openForm"></button></div>
+      <div class="box"><h4 id="t-noteLabel"></h4><p class="note" id="t-note"></p></div>
+    </aside>
+  </div>
+
+  <footer id="t-footer"></footer>
+</div>
+
+<div class="ov" id="ov" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="x" id="closeForm" aria-label="close">&times;</button>
+    <h3 id="f-title"></h3>
+    <p class="sub" id="f-sub"></p>
+    <div class="f">
+      <input id="f-name" autocomplete="name">
+      <input id="f-company">
+      <input id="f-contact">
+      <textarea id="f-msg" rows="2"></textarea>
+      <div class="msg" id="f-msgline"></div>
+      <div class="acts">
+        <button class="send" id="f-submit"></button>
+        <button class="later" id="f-later"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const I18N = {
+zh:{
+  eyebrow:"个人主页 / ZHANG ZIXUAN",
+  title:"欢迎您来。这里是 Violet 的个人「品牌」。",
+  lede:"做过前端也做过后台，我最后得出的结论是：把人处好，才是所有工作的底层。在 AI 几乎能接管一切流程的时代，剩下最值钱的是人的判断和创意，而人与人之间真实的感受和沟通，是它替代不了的。事情从来都有解决办法，区别只在于你怎么说、走哪条路径——这也是人最大的能动性。",
+  meta:[["求职方向","市场品牌 / 人力资源"],["身份","香港中文大学 管理学硕士 · 2026.07 毕业"],["工作语言","中文 · 英文"]],
+  eduLabel:"教育背景",
+  edu:[
+    {org:"香港中文大学",role:"管理学硕士",period:"2025.09 – 2026.07 · 香港",desc:"公司金融、统计分析、咨询管理、商业分析与数字创新"},
+    {org:"燕山大学",role:"管理学学士",period:"2019.09 – 2023.06 · 秦皇岛",desc:"管理学、组织行为学、经济学、定量分析"}
+  ],
+  expLabel:"实习与项目",
+  expHint:"以下只是骨架，细节直接问我",
+  exp:[
+    {org:"香港中文大学 × 新华集团（Sunwah）",role:"战略咨询顾问",period:"2026.05 – 2026.06 · 越南",desc:"越南饮品市场调研，制定茶叶产品「四步走」高端化进入战略并向集团管理层汇报"},
+    {org:"思创客品牌咨询（北京）",role:"市场助理",period:"2025.03 – 2025.05 · 北京",desc:"10+ 款竞品对比分析框架；5+ 场 FGD 与深访的现场统筹、逐字稿与洞察提炼"},
+    {org:"牡丹江德邦物流",role:"人力资源专员",period:"2024.08 – 2024.11 · 牡丹江",desc:"5+ 类岗位招聘，筛选 300+ 份简历、安排 50+ 场面试，输出招聘数据报表"},
+    {org:"小红书商业内容创作",role:"内容策划／撰稿（自由职业）",period:"2024.03 – 2024.05 · 远程",desc:"交付 100+ 篇商业种草内容，覆盖家居家电、线下探店、文娱演出等 3+ 消费品类"},
+    {org:"北京 2022 冬奥会及冬残奥会",role:"前院客流管理组长",period:"2022.01 – 2022.03 · 张家口",desc:"国家冬季两项中心客流动线与分流，单日高峰服务观众数千人次"}
+  ],
+  campusLabel:"校园与荣誉",
+  campus:[
+    {org:"燕山大学校新闻中心",role:"主持部部长",period:"2020.10 – 2022.06",desc:"管理 20 人主持团队，建立新人培训与考核机制"},
+    {org:"学生会文艺部部长 · 班长",role:"",period:"2019.09 – 2023.06",desc:"单场覆盖 500+ 师生的院级活动统筹；40+ 人班级管理，推进 10+ 项活动"},
+    {org:"获奖与证书",role:"",period:"",desc:"冀青之星典型人物（省级）· 大创训练计划省奖 · 三等奖学金 3 次 · 香港保险中介人资格 IIQE"}
+  ],
+  talkLabel:"和我聊聊",
+  live:"对话 · 实时生成",
+  hint:"Ctrl / ⌘ + Enter 发送",
+  speakerHer:"Violet",speakerYou:"您",
+  placeholder:"想了解什么，直接问…",
+  sendLabel:"发送",
+  opening:"您好，感谢您花时间看到这里。上面那几行是骨架，真正有意思的部分写不进简历——某个项目里我具体做了什么、中途卡住了怎么办、什么样的团队我能跑得最快。这些您问，我答。",
+  quickLabel:"快速信息",
+  quick:[["方向","市场品牌 / 人力资源"],["内容","小红书 100+ 篇"],["毕业","2026.07"],["持牌","香港保险中介人资格 IIQE"],["语言","雅思 7.0 · 中文 · 英文"],["工具","SPSS · Excel"]],
+  askLabel:"可以问我",
+  qs:["两个月写 100+ 篇种草内容，你怎么保证不套模板？","接到品牌 Brief 后，你第一步做什么？","做用户调研时，你怎么把一堆原话变成一个能用的洞察？","如果数据结论和用户的原话打架，你信哪个？","越南那个四步策略，你们怎么验证它站得住？","招聘旺季手上 300 份简历，你怎么定优先级？","带 20 人的主持团队，你怎么带新人？","你的想法在会上被否了，接下来你会怎么做？","入职第一年，你最想拿到的是什么？"],
+  egg:{title:"对我的简历这么感兴趣，怎么还不联系我！",sub:"都问到第五个问题了。剩下的部分我更想当面说——留个联系方式，我来找您。"},
+  eggAgain:{title:"还在？那这次真的留一下吧。",sub:"我保证回得比这个页面快。"},
+  form:{title:"联系 Violet",sub:"留下联系方式，我会亲自回复您。",
+        name:"怎么称呼您",company:"公司与岗位（选填）",contact:"邮箱 / 微信",msg:"想聊点什么（选填）",
+        submit:"发送",later:"再聊几句",
+        need:"麻烦至少留下称呼和联系方式",done:"收到了，我会尽快回复您。感谢您花的这些时间。",openBtn:"联系我"},
+  noteLabel:"说明",
+  note:"本页回答由 AI 依据我提供的真实履历生成，不是我本人实时回复。履历之外的信息它不会替我编造，具体细节请与我本人确认。",
+  footer:"本页由我自己搭建，对话部分接入 Claude API，事实范围由我本人撰写与限定。完整简历与联系方式可向我索取。",
+  err:"连接断了，麻烦稍后再试。",empty:"这条没回上来，能再问一次吗？",waiting:"正在输入"
+},
+en:{
+  eyebrow:"PERSONAL SITE / ZHANG ZIXUAN",
+  title:"Welcome. This is Violet's personal brand.",
+  lede:"Front of house or back office, I've landed on the same conclusion: getting on with people is the foundation of every job. In an era where AI can take over almost any process, what stays valuable is human judgement and imagination — and honest feeling and communication between people is the part it can't replace. Every problem has a way out; the difference is how you say it and which route you take. That's the widest margin a person has.",
+  meta:[["Looking for","Marketing & brand / HR"],["Status","MSc Management, CUHK · graduating Jul 2026"],["Working languages","Chinese · English"]],
+  eduLabel:"EDUCATION",
+  edu:[
+    {org:"The Chinese University of Hong Kong",role:"Master of Management",period:"Sep 2025 – Jun 2026 · Hong Kong",desc:"Financial & management accounting, managing people and organizations, strategic management"},
+    {org:"Yanshan University",role:"Bachelor of Management",period:"Sep 2019 – Jun 2023 · Hebei",desc:"Public management, organizational behaviour, microeconomics, public sector HRM"}
+  ],
+  expLabel:"EXPERIENCE",
+  expHint:"The outline is here — ask me for the detail",
+  exp:[
+    {org:"CUHK × Sunwah Group",role:"Strategy consultant",period:"May – Jun 2026 · Vietnam",desc:"Vietnam beverage market research; four-phase premium market-entry roadmap delivered to Sunwah senior management"},
+    {org:"ThinkMaker Brand Consulting",role:"Marketing assistant",period:"Mar – May 2025 · Beijing",desc:"Competitor framework across 10+ products; ran logistics, transcripts and insight extraction for 5+ FGDs and depth interviews"},
+    {org:"Mudanjiang Deppon Logistics",role:"Human resources specialist",period:"Aug – Nov 2024 · Mudanjiang",desc:"Hiring across 5+ role types; screened 300+ CVs, coordinated 50+ interviews, produced recruiting data reports"},
+    {org:"RedNote (Xiaohongshu)",role:"Freelance content writer",period:"Mar – May 2024 · Remote",desc:"Delivered 100+ sponsored posts across 3+ categories — home appliances, offline store visits, live entertainment"},
+    {org:"Beijing 2022 Winter Olympics & Paralympics",role:"Group leader, spectator flow",period:"Jan – Mar 2022 · Zhangjiakou",desc:"Spectator flow at the National Biathlon Centre, serving several thousand people on peak days"}
+  ],
+  campusLabel:"CAMPUS & AWARDS",
+  campus:[
+    {org:"Yanshan University News Centre",role:"Head of hosting division",period:"Oct 2020 – Jun 2022",desc:"Led a 20-person hosting team; built the training and assessment system for new hosts"},
+    {org:"Student union arts director · class monitor",role:"",period:"Sep 2019 – Jun 2023",desc:"Faculty events reaching 500+ students per event; managed a 40+ student class across 10+ initiatives"},
+    {org:"Awards & certification",role:"",period:"",desc:"Hebei Youth Star model individual · provincial innovation programme award · third-class scholarship ×3 · IIQE licensed (HK)"}
+  ],
+  talkLabel:"TALK TO ME",
+  live:"LIVE CONVERSATION",
+  hint:"Ctrl / ⌘ + Enter to send",
+  speakerHer:"Violet",speakerYou:"You",
+  placeholder:"Ask me anything…",
+  sendLabel:"Send",
+  opening:"Hello, and thank you for reading this far. What's above is only the outline — the interesting part never fits on a CV: what I actually did inside a project, what I did when it stalled, the kind of team I move fastest in. Ask, and I'll tell you.",
+  quickLabel:"AT A GLANCE",
+  quick:[["Target","Marketing & brand / HR"],["Content","100+ RedNote posts"],["Available","After Jul 2026"],["Licence","HK insurance intermediary (IIQE)"],["Languages","IELTS 7.0 · Chinese · English"],["Tools","SPSS · Excel"]],
+  askLabel:"YOU COULD ASK",
+  qs:["100+ sponsored posts in two months — how do you avoid a template?","A brand brief lands in your inbox. What's your first move?","How do you turn a pile of interview quotes into one usable insight?","When the data and what users actually said disagree, which do you trust?","How did you pressure-test the four-step Vietnam strategy?","300 CVs in peak season — how do you set priorities?","You led a 20-person hosting team. How did you train newcomers?","Your idea gets shot down in a meeting. What do you do next?","What do you most want to walk away with in your first year?"],
+  egg:{title:"Five questions in — and still not getting in touch?",sub:"The rest I'd rather say in person. Leave me a way to reach you and I'll come to you."},
+  eggAgain:{title:"Still here? Go on, leave it this time.",sub:"I promise I reply faster than this page does."},
+  form:{title:"Contact Violet",sub:"Leave your details and I'll reply personally.",
+        name:"Your name",company:"Company & role (optional)",contact:"Email / WeChat",msg:"What would you like to discuss? (optional)",
+        submit:"Send",later:"Keep chatting",
+        need:"Please leave at least a name and a way to reach you",done:"Got it — I'll come back to you shortly. Thank you for the time you've spent here.",openBtn:"Contact me"},
+  noteLabel:"NOTE",
+  note:"Answers here are AI-generated from my real CV — not me replying live. It won't invent anything beyond that material; for specifics, please confirm with me directly.",
+  footer:"I built this page myself; the conversation runs on the Claude API and the factual scope was written by me. Full CV and contact details available on request.",
+  err:"Connection dropped — please try again.",empty:"That didn't come through. Ask again?",waiting:"typing"
+}};
+
+
+let L="zh", T=I18N.zh, history=[], busy=false, asked=0, eggShown=0;
+const log=document.getElementById("log"), input=document.getElementById("input"), send=document.getElementById("send");
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+function row(e){
+  return '<div class="row"><div><div class="org">'+esc(e.org)+(e.role?"<em>"+esc(e.role)+"</em>":"")+
+    '</div><div class="desc">'+esc(e.desc)+'</div></div><span class="per">'+esc(e.period)+"</span></div>";
+}
+
+function render(){
+  T=I18N[L]; document.documentElement.lang=L;
+  $("t-eyebrow").textContent=T.eyebrow;
+  $("t-title").textContent=T.title;
+  $("t-lede").textContent=T.lede;
+  $("t-meta").innerHTML=T.meta.map(m=>"<div>"+m[0]+"<span>"+m[1]+"</span></div>").join("");
+  $("t-eduLabel").textContent=T.eduLabel;
+  $("t-edu").innerHTML=T.edu.map(row).join("");
+  $("t-expLabel").textContent=T.expLabel;
+  $("t-expHint").textContent=T.expHint;
+  $("t-exp").innerHTML=T.exp.map(row).join("");
+  $("t-campusLabel").textContent=T.campusLabel;
+  $("t-campus").innerHTML=T.campus.map(row).join("");
+  $("t-talkLabel").textContent=T.talkLabel;
+  $("t-live").textContent=T.live;
+  $("t-hint").textContent=T.hint;
+  input.placeholder=T.placeholder;
+  send.textContent=T.sendLabel;
+  $("t-quickLabel").textContent=T.quickLabel;
+  $("t-quick").innerHTML=T.quick.map(q=>"<dt>"+q[0]+"</dt><dd>"+q[1]+"</dd>").join("");
+  $("t-askLabel").textContent=T.askLabel;
+  $("t-qs").innerHTML=T.qs.map(q=>'<button class="q">'+esc(q)+"</button>").join("");
+  document.querySelectorAll(".q").forEach(b=>b.addEventListener("click",()=>ask(b.textContent)));
+  $("t-noteLabel").textContent=T.noteLabel;
+  $("t-note").textContent=T.note;
+  $("openForm").textContent=T.form.openBtn;
+  $("f-name").placeholder=T.form.name;
+  $("f-company").placeholder=T.form.company;
+  $("f-contact").placeholder=T.form.contact;
+  $("f-msg").placeholder=T.form.msg;
+  $("f-submit").textContent=T.form.submit;
+  $("f-later").textContent=T.form.later;
+  setModal(T.form.title,T.form.sub);
+  $("f-msgline").textContent=""; $("f-msgline").className="msg";
+  $("t-footer").textContent=T.footer;
+  log.innerHTML=""; history=[]; asked=0; eggShown=0; addTurn("her",T.opening);
+}
+
+function addTurn(who,text){
+  const el=document.createElement("div");
+  el.className="turn "+(who==="her"?"her":"you");
+  el.innerHTML='<div class="speaker"><b>'+(who==="her"?T.speakerHer:T.speakerYou)+"</b></div><p></p>";
+  el.querySelector("p").textContent=text;
+  log.appendChild(el); log.scrollTop=log.scrollHeight;
+}
+
+async function ask(text){
+  text=(text||"").trim();
+  if(busy||!text) return;
+  busy=true; send.disabled=true;
+  addTurn("you",text);
+  history.push({role:"user",content:history.length===0?"[interface language: "+L+"]\n"+text:text});
+
+  const wait=document.createElement("div");
+  wait.className="turn her";
+  wait.innerHTML='<div class="speaker"><b>'+T.speakerHer+'</b><span class="mono">'+T.waiting+
+    '</span></div><p class="dots"><span></span><span></span><span></span></p>';
+  log.appendChild(wait); log.scrollTop=log.scrollHeight;
+
+  try{
+    const res=await fetch("/api/chat",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({messages:history.slice(-12)})
+    });
+    const data=await res.json();
+    const reply=(data.reply||"").trim();
+    wait.remove();
+    if(reply){ addTurn("her",reply); history.push({role:"assistant",content:reply}); }
+    else addTurn("her",T.empty);
+  }catch(e){ wait.remove(); addTurn("her",T.err); }
+  busy=false; send.disabled=false; input.focus();
+
+  asked++;
+  if(asked===5 && eggShown===0){ eggShown=1; setTimeout(()=>openModal(T.egg),900); }
+  else if(asked===11 && eggShown===1){ eggShown=2; setTimeout(()=>openModal(T.eggAgain),900); }
+}
+
+/* ---------- 联系表单 ---------- */
+function setModal(title,sub){ $("f-title").textContent=title; $("f-sub").textContent=sub; }
+
+function openModal(copy){
+  if(copy) setModal(copy.title,copy.sub);
+  $("f-msgline").textContent=""; $("f-msgline").className="msg";
+  $("ov").hidden=false;
+  setTimeout(()=>$("f-name").focus(),60);
+}
+function closeModal(){ $("ov").hidden=true; }
+
+$("openForm").addEventListener("click",()=>openModal(T.form));
+$("closeForm").addEventListener("click",closeModal);
+$("f-later").addEventListener("click",closeModal);
+$("ov").addEventListener("click",e=>{ if(e.target===$("ov")) closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("ov").hidden) closeModal(); });
+
+$("f-submit").addEventListener("click",async()=>{
+  const payload={
+    name:$("f-name").value.trim(),
+    company:$("f-company").value.trim(),
+    contact:$("f-contact").value.trim(),
+    message:$("f-msg").value.trim(),
+    lang:L,
+    at:new Date().toISOString()
+  };
+  const line=$("f-msgline");
+  if(!payload.name || !payload.contact){
+    line.textContent=T.form.need; line.className="msg bad"; return;
+  }
+
+  /* ↓↓↓ 上线前把这里换成你自己的 Formspree 地址（见部署指南第 5 步） ↓↓↓ */
+  const FORM_ENDPOINT = "https://formspree.io/f/请替换成你的编号";
+
+  try{
+    await fetch(FORM_ENDPOINT,{
+      method:"POST",
+      headers:{"Content-Type":"application/json",Accept:"application/json"},
+      body:JSON.stringify(payload)
+    });
+  }catch(err){ console.error(err); }
+
+  line.textContent=T.form.done; line.className="msg ok";
+  $("f-submit").disabled=true;
+  setTimeout(()=>{ closeModal(); $("f-submit").disabled=false;
+    ["f-name","f-company","f-contact","f-msg"].forEach(id=>$(id).value="");
+    line.textContent=""; line.className="msg"; },2200);
+});
+
+document.querySelectorAll(".langs button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    if(busy) return;
+    L=b.dataset.l;
+    document.querySelectorAll(".langs button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    render();
+  });
+});
+send.addEventListener("click",()=>{const v=input.value;input.value="";input.style.height="auto";ask(v);});
+input.addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.metaKey||e.ctrlKey)){e.preventDefault();send.click();}});
+input.addEventListener("input",()=>{input.style.height="auto";input.style.height=Math.min(input.scrollHeight,118)+"px";});
+render();
+</script>
