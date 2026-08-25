@@ -422,17 +422,34 @@ $("f-submit").addEventListener("click",async()=>{
 
   const body = ACCESS_KEY ? {...payload, access_key:ACCESS_KEY} : payload;
 
+  line.textContent="…"; line.className="msg";
+  $("f-submit").disabled=true;
+
+  let ok=false, detail="";
   try{
-    await fetch(FORM_ENDPOINT,{
+    const r=await fetch(FORM_ENDPOINT,{
       method:"POST",
       headers:{"Content-Type":"application/json",Accept:"application/json"},
       body:JSON.stringify(body)
     });
-  }catch(err){ console.error(err); }
+    const txt=await r.text();
+    console.log("[form]",r.status,txt);
+    ok=r.ok;
+    if(!ok) detail=" ("+r.status+")";
+  }catch(err){
+    console.error("[form]",err);
+    detail=" (network)";
+  }
+
+  $("f-submit").disabled=false;
+  if(!ok){
+    line.textContent=(L==="zh"?"发送失败，请直接邮件联系我":"Couldn't send — please email me directly")+detail;
+    line.className="msg bad";
+    return;
+  }
 
   line.textContent=T.form.done; line.className="msg ok";
-  $("f-submit").disabled=true;
-  setTimeout(()=>{ closeModal(); $("f-submit").disabled=false;
+  setTimeout(()=>{ closeModal();
     ["f-name","f-company","f-contact","f-msg"].forEach(id=>$(id).value="");
     line.textContent=""; line.className="msg"; },2200);
 });
