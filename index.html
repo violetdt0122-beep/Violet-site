@@ -408,14 +408,25 @@ $("f-submit").addEventListener("click",async()=>{
     line.textContent=T.form.need; line.className="msg bad"; return;
   }
 
-  /* ↓↓↓ 上线前把这里换成你自己的 Formspree 地址（见部署指南第 5 步） ↓↓↓ */
-  const FORM_ENDPOINT = "https://formspree.io/f/请替换成你的编号";
+  /* ↓↓↓ 二选一，把下面这行换成你自己的 ↓↓↓
+
+     方案 A · FormSubmit（不用注册，把邮箱填进网址即可）：
+       https://formsubmit.co/ajax/你的邮箱@163.com
+
+     方案 B · Web3Forms（注册后拿一串 access key）：
+       https://api.web3forms.com/submit
+       并把下面 ACCESS_KEY 换成你的 key
+  */
+  const FORM_ENDPOINT = "https://formsubmit.co/ajax/15904635717@163.com";
+  const ACCESS_KEY = "";
+
+  const body = ACCESS_KEY ? {...payload, access_key:ACCESS_KEY} : payload;
 
   try{
     await fetch(FORM_ENDPOINT,{
       method:"POST",
       headers:{"Content-Type":"application/json",Accept:"application/json"},
-      body:JSON.stringify(payload)
+      body:JSON.stringify(body)
     });
   }catch(err){ console.error(err); }
 
